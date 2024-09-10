@@ -19,7 +19,7 @@ ostream & operator<< (ostream & ost, std::array<T,S> a)
 }
 }
 
-PYBIND11_MODULE(dualcellspaces,m) {
+PYBIND11_MODULE(dualcellspaces_wip,m) {
   // import ngsolve such that python base classes are defined
   auto ngs = py::module::import("ngsolve");
 

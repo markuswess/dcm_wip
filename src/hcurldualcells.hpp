@@ -7,7 +7,6 @@
 namespace ngcomp
 {
 
-
   class HCurlDualCells : public FESpace
   {
     Array<DofId> first_edge_dofs;

@@ -30,12 +30,14 @@ namespace ngcomp
     virtual void CalcShape (const IntegrationPoint & ip, 
         BareSliceMatrix<> shape) const override
     {
-      //cout << "HCurlDualCellTrig.HCurlDualCellTrig called" <<endl;
+      //cout << "HCurlDualCellTrig.CalcShape called for ip " << ip(0) << ", " << ip(1) << ", " << ip(2) << endl;
+      //cout << "and matrix " << shape << endl;
 
       double lam[] = { ip(0), ip(1), 1-ip(0)-ip(1) };
       int maxlam = PosMax(lam);
 
-      shape.AddSize(ndof, 2) = 0;
+      //shape.AddSize(ndof, 2) = 0;
+      shape = 0;
       int minv = (maxlam+1)%3;
       int maxv = (maxlam+2)%3;
 
@@ -275,9 +277,9 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), 1-ip(0)-ip(1) };
       int maxlam = PosMax(lam);
 
-      //shape = 0;
+      shape = 0;
       //
-      shape.AddSize(ndof, 2) = 0;
+      //shape.AddSize(ndof, 2) = 0;
       int minv = (maxlam+1)%3;
       int maxv = (maxlam+2)%3;
 
@@ -405,8 +407,8 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), 1-ip(0)-ip(1) };
       int maxlam = PosMax(lam);
 
-      //shape = 0;
-      shape.AddSize(ndof, 2) = 0;
+      shape = 0;
+      //shape.AddSize(ndof, 2) = 0;
       int minv = (maxlam+1)%3;
       int maxv = (maxlam+2)%3;
 
@@ -593,7 +595,8 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), ip(2), 1-ip(0)-ip(1)-ip(2) };
       int maxlam = PosMax(lam);
 
-      shape.AddSize(ndof, 3) = 0;
+      //shape.AddSize(ndof, 3) = 0;
+      shape = 0;
 
       int minvi = (maxlam+1)%4;
       int maxvi = minvi;
@@ -876,8 +879,8 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), ip(2), 1-ip(0)-ip(1)-ip(2) };
       int maxlam = PosMax(lam);
 
-      //shape = 0;
-      shape.AddSize(ndof, 3) = 0;
+      shape = 0;
+      //shape.AddSize(ndof, 3) = 0;
 
       int minvi = (maxlam+1)%4;
       int maxvi = minvi;
@@ -1018,8 +1021,8 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), ip(2), 1-ip(0)-ip(1)-ip(2) };
       int maxlam = PosMax(lam);
 
-      //shape = 0;
-      shape.AddSize(ndof, 3) = 0;
+      shape = 0;
+      //shape.AddSize(ndof, 3) = 0;
 
       int minvi = (maxlam+1)%4;
       int maxvi = minvi;
@@ -1161,8 +1164,8 @@ namespace ngcomp
       double lam[] = { ip(0), ip(1), ip(2), 1-ip(0)-ip(1)-ip(2) };
       int maxlam = PosMax(lam);
 
-      //shape = 0;
-      shape.AddSize(ndof, 3) = 0;
+      shape = 0;
+      //shape.AddSize(ndof, 3) = 0;
 
       int minvi = (maxlam+1)%4;
       int maxvi = minvi;

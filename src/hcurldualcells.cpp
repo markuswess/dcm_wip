@@ -2277,6 +2277,7 @@ namespace ngcomp
                   {
                   HeapReset hr(mylh);
                   auto nr = elclass_inds[i];
+                  if (defon && !defon->Mask()[ma->GetElIndex(ElementId(VOL,nr))]) continue;
 
                   auto & trafo = ma->GetTrafo(ElementId(VOL,nr), mylh);            
                   MappedIntegrationRule<2,2> mir(ir, trafo, mylh);
@@ -2401,6 +2402,7 @@ namespace ngcomp
                   {
                   HeapReset hr(mylh);
                   auto nr = elclass_inds[i];
+                  if (defon && !defon->Mask()[ma->GetElIndex(ElementId(VOL,nr))]) continue;
 
                   auto & trafo = ma->GetTrafo(ElementId(VOL,nr), mylh);            
                   MappedIntegrationRule<3,3> mir(ir, trafo, mylh);

@@ -967,23 +967,42 @@ namespace ngcomp
             Array<DofId> dofs(felref.GetNDof());
             Matrix rhoi_shapes_trans(3*ir.Size(), felref.GetNDof());
             Matrix<> elmat(felref.GetNDof());
-            
-            for (auto i : myrange)
-              {
-                HeapReset hr(mylh);
-                auto nr = elclass_inds[i];
+            Matrix rhomat(ir.Size(), 9);
+            Matrix rhoscal(ir.Size(), 1);
 
-                auto & trafo = ma->GetTrafo(ElementId(VOL,nr), mylh);            
-                MappedIntegrationRule<3,3> mir(ir, trafo, mylh);
-                GetDofNrs(ElementId(VOL,nr), dofs);
-                
-                for (size_t i = 0; i < mir.Size(); i++)
-                  {
-                    Mat<3,3> rhoi = Id<3>();
-                    Mat<3,3> Finv = mir[i].GetJacobianInverse();
-                    rhoi = Finv * rhoi * Trans(Finv);
-                    rhoi *= ir[i].Weight() * mir[i].GetJacobiDet();
-                    rhoi_shapes_trans.Rows(3*i, 3*i+3) = rhoi * shapes_trans.Rows(3*i, 3*i+3);
+            for (auto i : myrange)
+            {
+            HeapReset hr(mylh);
+            auto nr = elclass_inds[i];
+            if (defon && !defon->Mask()[ma->GetElIndex(ElementId(VOL,nr))]) continue;
+
+            auto & trafo = ma->GetTrafo(ElementId(VOL,nr), mylh);            
+            MappedIntegrationRule<3,3> mir(ir, trafo, mylh);
+            GetDofNrs(ElementId(VOL,nr), dofs);
+
+            if (rho)
+            {
+              if (rho->Dimension() == 1)
+                rho->Evaluate(mir, rhoscal);
+              else
+                rho->Evaluate(mir, rhomat);
+            }
+
+
+            for (size_t i = 0; i < mir.Size(); i++)
+            {
+              Mat<3,3> rhoi = Id<3>();
+              if (rho)
+              {
+                if (rho->Dimension() == 1)
+                  rhoi *= rhoscal(i, 0);
+                else
+                  rhoi = rhomat.Row(i).AsMatrix(3,3);
+              }
+              Mat<3,3> Finv = mir[i].GetJacobianInverse();
+              rhoi = Finv * rhoi * Trans(Finv);
+              rhoi *= ir[i].Weight() * mir[i].GetJacobiDet();
+              rhoi_shapes_trans.Rows(3*i, 3*i+3) = rhoi * shapes_trans.Rows(3*i, 3*i+3);
                   }
                 
                 spshapes.Mult (rhoi_shapes_trans, elmat);

@@ -1,2 +1,2 @@
 import ngsolve
-from .dualcellspaces_wip import *
+from .dualcellspaces import *
